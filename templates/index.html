@@ -165,5 +165,10 @@
     <form action="/checkout" method="POST">
         <button type="submit">Checkout & Generate Receipt</button>
     </form>
+
+    {% if total_amount == 0 %}
+    <a href="/download_receipt"><button type="button">Download Receipt</button></a>
+    {% endif %}
+    
 </body>
 </html>
