@@ -45,17 +45,32 @@ def checkout():
     if total_amount == 0:
         return "No items in cart", 400
     
-    receipt = "Mall Cashier Receipt\n"
-    receipt += "===========================\n"
+    receipt_content = "Mall Cashier Receipt\n"
+    receipt_content += "===========================\n"
     for item in cart:
-        receipt += f"{item['name']} x{item['quantity']} \tRp {item['price']}\n"
-    receipt += f"===========================\nTotal: Rp {total_amount}\n"
-    receipt += "Thank you for shopping!\n"
+        receipt_content += f"{item['name']} x{item['quantity']} \tRp {item['price']}\n"
+    receipt_content += f"===========================\nTotal: Rp {total_amount}\n"
+    receipt_content += "Thank you for shopping!\n"
 
-    with open('receipt.txt', 'w') as f:
-        f.write(receipt)
+    # Save the receipt to a file
+    receipt_file = "receipt.txt"
+    with open(receipt_file, 'w') as f:
+        f.write(receipt_content)
 
-    return redirect(url_for('home'))
+    # Clear cart after checkout
+    cart.clear()
+    global total_amount
+    total_amount = 0
+
+    return redirect(url_for('download_receipt'))
+
+# API to download the receipt
+@app.route('/download_receipt')
+def download_receipt():
+    receipt_file = "receipt.txt"
+    if os.path.exists(receipt_file):
+        return send_file(receipt_file, as_attachment=True)
+    return "No receipt available", 400
 
 if __name__ == "__main__":
     app.run(debug=True)
