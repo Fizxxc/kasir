@@ -1,0 +1,6 @@
+Mall Cashier System
+====================================
+sabun	4x	Rp 40000.0
+====================================
+Total: Rp 40000.0
+Thank you for shopping!
